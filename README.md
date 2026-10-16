@@ -1,4 +1,4 @@
-# Hotel Operations — Step 3: Maintenance + theme toggle
+# Hotel Operations — Step 4: Store Manager
 
     npm install
     npm run dev
@@ -18,3 +18,7 @@ requests (bring tomorrow, dirty linen) in shared state for later steps.
 Step 3 adds: Maintenance Kanban, My Work Plan (personal order, separate from official
 priority), Pending with required reason + proposed date, Done with closing note, progress/final
 photos, and a light/dark toggle (src/hooks/useTheme.js, tokens in src/styles/tokens.css).
+
+Step 4 adds: Store preparation cards (Waiting for Information / To Prepare / Prepared / Collected /
+Changed), guests vs beds-needed vs max-capacity shown separately, cleaner's reserve-linen answer and
+"Mark collected", a Stock menu (kept out of the main view), and Store -> Maintenance equipment tasks.

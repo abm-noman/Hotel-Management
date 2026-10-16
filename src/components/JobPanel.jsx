@@ -38,6 +38,25 @@ export default function JobPanel({ job, canEdit }) {
           <span className="hint">Store Manager sees this when preparing linen</span>
         </label>
       )}
+      {canEdit && open && (
+        <div className="field">Reserve linen at the property?
+          <div className="seg">
+            {['Yes', 'No'].map((v) => (
+              <button key={v} className={job.reserveLinen === v ? 'on' : ''}
+                onClick={() => dispatch({ type: 'SET_RESERVE', jobId: job.id, value: v })}>{v}</button>
+            ))}
+          </div>
+        </div>
+      )}
+      {canEdit && open && (
+        <div className="field">Store package: <StatusChip status={job.prep} />
+          {job.prep === 'Prepared' && (
+            <button style={{ marginLeft: 6 }} onClick={() => dispatch({ type: 'SET_PREP', jobId: job.id, status: 'Collected' })}>
+              Mark collected
+            </button>
+          )}
+        </div>
+      )}
       {canEdit && job.status === 'To Do' && (
         <button className="primary" onClick={() => dispatch({ type: 'START_JOB', jobId: job.id })}>Start</button>
       )}

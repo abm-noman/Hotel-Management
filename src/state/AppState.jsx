@@ -5,11 +5,12 @@ const initial = {
   panel: null, // { type: 'job' | 'task' | ..., id }
   jobs: [
     { id: 'j1', property: 'Roskildevej 148', cleaner: 'Sabbir', time: '10:00–14:00', guests: 3, beds: '',
-      status: 'To Do', notices: ['Previous cleaner: bring extra towels', 'Open issue: bathroom light flickers'] },
+      status: 'To Do', prep: 'Waiting for Information', reserveLinen: '',
+      notices: ['Previous cleaner: bring extra towels', 'Open issue: bathroom light flickers'] },
     { id: 'j2', property: 'Vesterbrogade 22', cleaner: 'Anna', time: '12:00–15:00', guests: 2, beds: '',
-      status: 'To Do', notices: [] },
+      status: 'To Do', prep: 'Waiting for Information', reserveLinen: '', notices: [] },
     { id: 'j3', property: 'Roskildevej 148', cleaner: 'Sabbir', time: '15:00–17:00', guests: 2, beds: '2',
-      status: 'To Do', notices: [] },
+      status: 'To Do', prep: 'To Prepare', reserveLinen: '', notices: [] },
   ],
   // Filled by cleaner reports; later steps read these.
   // Maintenance tasks. priority = official (Management sets it, step 5).
@@ -20,7 +21,13 @@ const initial = {
       priority: 'Low', status: 'In Progress', note: '', photos: [] },
   ],
   plan: ['t2', 't3'], // worker's own route order; never changes official priority
-  requests: [],   // "bring tomorrow" + dirty linen, waiting for the schedule
+  requests: [],
+  stock: [
+    { id: 's1', name: 'Dishwasher tablets', status: 'Low' },
+    { id: 's2', name: 'Bath towels', status: 'Available' },
+    { id: 's3', name: 'Detergent', status: 'Out of Stock' },
+    { id: 's4', name: 'Light bulbs', status: 'Ordered' },
+  ],   // "bring tomorrow" + dirty linen, waiting for the schedule
 }
 
 const id = (p) => p + Date.now() + Math.random().toString(36).slice(2, 5)
@@ -39,8 +46,27 @@ function reducer(state, action) {
     case 'START_JOB':
       return patchJob(state, action.jobId, { status: 'In Progress', startedAt: Date.now() })
 
-    case 'SET_BEDS':
-      return patchJob(state, action.jobId, { beds: action.beds })
+    case 'SET_BEDS': {
+      // Bed info moves the Store card: first info unlocks it, a later change flags a prepared package.
+      const job = state.jobs.find((j) => j.id === action.jobId)
+      let prep = job.prep
+      if (action.beds !== '' && prep === 'Waiting for Information') prep = 'To Prepare'
+      else if (prep === 'Prepared' && action.beds !== job.beds) prep = 'Changed'
+      return patchJob(state, job.id, { beds: action.beds, prep })
+    }
+    case 'SET_RESERVE': return patchJob(state, action.jobId, { reserveLinen: action.value })
+    case 'SET_PREP': return patchJob(state, action.jobId, { prep: action.status })
+    case 'SET_STOCK':
+      return { ...state, stock: state.stock.map((x) => (x.id === action.id ? { ...x, status: action.status } : x)) }
+    case 'ADD_STOCK':
+      return { ...state, stock: [...state.stock, { id: id('s'), name: action.name, status: 'Low' }] }
+    case 'CREATE_TASK': { // Store Manager -> Maintenance
+      const tid = id('t')
+      return { ...state, panel: null,
+        tasks: [...state.tasks, { id: tid, title: action.title, property: action.property,
+          source: 'Assigned by Store Manager', priority: 'Normal', status: 'To Do', note: '', photos: [] }],
+        plan: [...state.plan, tid] }
+    }
 
     case 'FINISH_JOB': {
       const job = state.jobs.find((j) => j.id === action.jobId)
