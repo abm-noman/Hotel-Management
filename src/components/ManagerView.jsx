@@ -5,13 +5,15 @@ import TaskPanel from './TaskPanel.jsx'
 import ManagerJobPanel from './ManagerJobPanel.jsx'
 import StockPanel from './StockPanel.jsx'
 import { StatusChip } from './Chip.jsx'
+import AccessIssues from './AccessIssues.jsx'
+import PropertyEditor from './PropertyEditor.jsx'
 import { fmtDuration } from './JobPanel.jsx'
 import { useApp } from '../state/AppState.jsx'
 
-const TABS = ['Today', 'Schedule', 'Time Approval']
+const TABS = ['Today', 'Schedule', 'Time Approval', 'Properties']
 
 function AddTask() {
-  const { dispatch } = useApp()
+  const { state, dispatch } = useApp()
   const [title, setTitle] = useState('')
   const [property, setProperty] = useState('Roskildevej 148')
   const [priority, setPriority] = useState('Normal')
@@ -22,7 +24,7 @@ function AddTask() {
       </label>
       <div className="row">
         <select value={property} onChange={(e) => setProperty(e.target.value)}>
-          {['Roskildevej 148', 'Vesterbrogade 22', 'Store'].map((x) => <option key={x}>{x}</option>)}
+          {[...Object.keys(state.properties), 'Store'].map((x) => <option key={x}>{x}</option>)}
         </select>
         <select value={priority} onChange={(e) => setPriority(e.target.value)}>
           {['Urgent', 'High', 'Normal', 'Low'].map((x) => <option key={x}>{x}</option>)}
@@ -56,6 +58,7 @@ export default function ManagerView() {
 
       {tab === 'Today' && (
         <>
+          <AccessIssues />
           <h2>Cleaning</h2>
           <div className="grid">{state.jobs.map((j) => <JobCard key={j.id} job={j} />)}</div>
           <h2>Maintenance — official priority</h2>
@@ -109,6 +112,23 @@ export default function ManagerView() {
         </>
       )}
 
+      {tab === 'Properties' && (
+        <>
+          <h2>Property profiles</h2>
+          <p className="muted">One pinned profile per address, so cleaners stop phoning to ask for codes and entrances.</p>
+          <div className="grid">
+            {Object.entries(state.properties).map(([name, pr]) => (
+              <div className="card" key={name} onClick={() => dispatch({ type: 'OPEN_PANEL', panel: { type: 'property', id: name } })}>
+                <h3>{name}</h3><div className="muted">{pr.address} · {pr.floor}</div>
+                <span className="chip">Max {pr.maxBeds} beds</span>
+                {pr.today.length > 0 && <span className="chip amber">{pr.today.length} today-only</span>}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {p?.type === 'property' && <PropertyEditor key={p.id} name={p.id} />}
       {job && <ManagerJobPanel key={job.id} job={job} />}
       {task && <TaskPanel task={task} manager />}
       {p?.type === 'stock' && <StockPanel canEdit />}

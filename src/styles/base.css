@@ -69,3 +69,8 @@ body, .header, .card, .panel, button { transition: background-color .2s, color .
 .kpi.amber { color: var(--amber); } .kpi.green { color: var(--green); }
 .kpi { font-size: 28px; font-weight: 600; }
 .filters { margin: 8px 0 12px; }
+
+/* Step 8: property profiles + access */
+.entrance { display: block; width: 100%; max-height: 180px; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); margin: 10px 0 0; }
+.pinfo td:last-child { text-align: right; font-weight: 400; max-width: 60%; }
+.access { margin: 14px 0; } .access summary { cursor: pointer; font-weight: 600; }

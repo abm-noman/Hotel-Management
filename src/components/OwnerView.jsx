@@ -20,14 +20,16 @@ export default function OwnerView() {
         <Kpi value={o.blocked.length} label="Blocked / carried forward" tone={o.blocked.length ? 'amber' : ''} />
         <Kpi value={o.tomorrowReady ? '✓ Ready' : '… Not yet'} label="Tomorrow: schedule + linen" tone={o.tomorrowReady ? 'green' : 'amber'} />
         <Kpi value={o.stockRisk} label={`Stock risks (${o.stockOut} out of stock)`} tone={o.stockRisk ? 'amber' : ''} />
+        <Kpi value={o.accessBlocked.length} label="Jobs blocked by access" tone={o.accessBlocked.length ? 'amber' : ''} />
         <Kpi value={o.timeWaiting} label="Time records awaiting approval" />
       </div>
 
-      {(o.urgent.length > 0 || o.blocked.length > 0) && (
+      {(o.urgent.length > 0 || o.blocked.length > 0 || o.accessBlocked.length > 0) && (
         <>
           <h2>Needs attention</h2>
           <div className="card nohover">
             {o.urgent.map((t) => <div className="row" key={t.id}><PriorityChip priority="Urgent" /> {t.title} <span className="muted">· {t.property}</span></div>)}
+            {o.accessBlocked.map((j) => <div className="row" key={j.id}><span className="chip red">⛔ Access</span> {j.property} <span className="muted">· {j.accessIssue.reason}</span></div>)}
             {o.blocked.map((t) => <div className="row" key={t.id}><span className="chip amber">⏸ Blocked</span> {t.title} <span className="muted">· {t.reason}</span></div>)}
           </div>
         </>

@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import SidePanel from './SidePanel.jsx'
 import FinishForm from './FinishForm.jsx'
 import { StatusChip } from './Chip.jsx'
-import { PROPERTIES } from '../data/model.js'
+import PropertyInfo from './PropertyInfo.jsx'
+import AccessForm from './AccessForm.jsx'
 import { useApp } from '../state/AppState.jsx'
 
 export const fmtDuration = (s) => `${Math.floor(s / 60)}m ${s % 60}s`
@@ -18,8 +19,8 @@ const List = ({ title, items }) => items.length > 0 && (
 )
 
 export default function JobPanel({ job, canEdit }) {
-  const { dispatch } = useApp()
-  const profile = PROPERTIES[job.property]
+  const { state, dispatch } = useApp()
+  const profile = state.properties[job.property]
   const open = job.status === 'To Do' || job.status === 'In Progress'
 
   return (
@@ -29,8 +30,8 @@ export default function JobPanel({ job, canEdit }) {
       <StatusChip status={job.status} />
       <List title="From Management" items={job.instruction ? [job.instruction] : []} />
       <List title="Notices" items={job.notices} />
-      <List title="Pinned — permanent" items={profile.permanent} />
-      <List title="Today only" items={profile.today} />
+      <PropertyInfo profile={profile} />
+      {canEdit && open && <AccessForm job={job} />}
 
       {canEdit && open && (
         <label className="field">Beds needed (optional)

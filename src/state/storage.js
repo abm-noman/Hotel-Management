@@ -1,7 +1,7 @@
 // Saves the whole app state in the browser. Bump VERSION when the data shape changes,
 // so old saved data is ignored instead of breaking the app.
 const KEY = 'hotel-ops:data'
-const VERSION = 1
+const VERSION = 2 // v2: property profiles moved into state
 
 export function loadState(fallback) {
   try {

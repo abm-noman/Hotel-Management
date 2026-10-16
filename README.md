@@ -1,4 +1,4 @@
-# Hotel Operations — Step 7: Local storage
+# Hotel Operations — Step 8: Property profiles + access issues
 
     npm install
     npm run dev
@@ -35,3 +35,9 @@ pending tasks, stock risks and waiting linen), filters, detail panel; Owner/CEO 
 Step 7 adds: automatic saving to localStorage (src/state/storage.js, versioned), live sync between
 open tabs, photos stored as shrunken data URLs (src/utils/image.js), a "Reset data" button, and a
 warning chip if the browser refuses to save. Change VERSION in storage.js whenever the data shape changes.
+
+Step 8 adds: editable property profiles (Management > Properties: address, floor, key box, code, parking,
+waste, standard cleaning, max beds, note, entrance photo, today-only lines), shown read-only to the
+assigned cleaner without any view logging; cleaner "Can't get in?" access report -> Management answers
+(becomes a today-only instruction + notification) -> Owner sees blocked-by-access count.
+Saved-data VERSION bumped to 2.

@@ -40,16 +40,20 @@ export const PRIORITY = {
   Low: { icon: '▽' },
 }
 
-// Property profile: permanent vs today-only instructions, kept apart on purpose.
-export const PROPERTIES = {
+// Property profile seed data. Edited by Management in the app; permanent and today-only stay apart.
+export const DEFAULT_PROPERTIES = {
   'Roskildevej 148': {
-    maxBeds: 4, // property capacity: a third, separate number (guests / beds needed / max)
-    permanent: ['Key box left of the entrance', 'Waste: back-yard bins', 'Max bed capacity: 4'],
-    today: ['Late checkout at 11:30'],
+    address: 'Roskildevej 148', floor: '2nd floor', parking: 'Street, free', keyBox: 'Left of the entrance',
+    code: '4821', waste: 'Back-yard bins', cleaning: 'Checklist B: kitchen, bathroom, floors, beds',
+    maxBeds: 4, notes: '', photo: '', today: ['Late checkout at 11:30'],
   },
   'Vesterbrogade 22': {
-    maxBeds: 3,
-    permanent: ['Key box in the stairwell', 'Parking: street, free', 'Max bed capacity: 3'],
-    today: [],
+    address: 'Vesterbrogade 22', floor: 'Ground floor', parking: 'Street, free', keyBox: 'In the stairwell',
+    code: '1190', waste: 'Basement room', cleaning: 'Checklist A: quick turnover',
+    maxBeds: 3, notes: '', photo: '', today: [],
   },
 }
+export const PROFILE_FIELDS = [
+  ['address', 'Address'], ['floor', 'Floor'], ['keyBox', 'Key box location'], ['code', 'Key box code'],
+  ['parking', 'Parking'], ['waste', 'Waste disposal'], ['cleaning', 'Standard cleaning instruction'],
+]

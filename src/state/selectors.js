@@ -46,6 +46,7 @@ export function ownerSummary(s) {
     tomorrowReady: s.schedulePublished && preps.every((p) => p === 'Prepared' || p === 'Collected'),
     stockRisk: s.stock.filter((x) => x.status === 'Low' || x.status === 'Out of Stock').length,
     stockOut: s.stock.filter((x) => x.status === 'Out of Stock').length,
+    accessBlocked: s.jobs.filter((j) => j.accessIssue && !j.accessIssue.resolved),
     timeWaiting: s.jobs.filter((j) => j.status === 'Pending Approval').length,
     decision: s.policy === null,
   }

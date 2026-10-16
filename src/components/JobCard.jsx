@@ -8,6 +8,7 @@ export default function JobCard({ job }) {
       <h3>{job.property}</h3>
       <div className="muted">{job.cleaner} · {job.time}</div>
       <StatusChip status={job.status} />
+      {job.accessIssue && !job.accessIssue.resolved && <span className="chip red"><b>⛔</b> Access issue</span>}
       {job.notices.length > 0 && <span className="chip amber"><b>ⓘ</b> {job.notices.length} Notice</span>}
     </div>
   )

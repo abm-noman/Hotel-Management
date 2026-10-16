@@ -2,7 +2,6 @@ import SidePanel from './SidePanel.jsx'
 import { StatusChip } from './Chip.jsx'
 import StockPanel from './StockPanel.jsx'
 import EquipmentPanel from './EquipmentPanel.jsx'
-import { PROPERTIES } from '../data/model.js'
 import { useApp } from '../state/AppState.jsx'
 
 const NEXT = { 'To Prepare': 'Prepared', 'Prepared': 'Collected', 'Changed': 'Prepared' }
@@ -20,8 +19,8 @@ function PrepCard({ job }) {
 }
 
 function PrepPanel({ job, requests }) {
-  const { dispatch } = useApp()
-  const max = PROPERTIES[job.property].maxBeds
+  const { state, dispatch } = useApp()
+  const max = state.properties[job.property].maxBeds
   const over = job.beds !== '' && Number(job.beds) > max
   return (
     <SidePanel>

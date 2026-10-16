@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useReducer, useState } from 'react'
+import { DEFAULT_PROPERTIES } from '../data/model.js'
 import { loadState, saveState, clearState, STORAGE_KEY } from './storage.js'
 
 const initial = {
@@ -24,6 +25,7 @@ const initial = {
   ],
   plan: ['t2', 't3'], // worker's own route order; never changes official priority
   requests: [],
+  properties: DEFAULT_PROPERTIES,
   planItems: [
     { id: 'p1', label: 'Owner inspection at 15:00', kind: 'Owner', status: 'Scheduled', source: 'Assigned by Owner',
       who: 'Owner', detail: 'Walk-through of Roskildevej 148.' },
@@ -104,6 +106,18 @@ function reducer(state, action) {
       return { ...state, schedulePublished: true,
         requests: state.requests.map((r) => (r.status === 'Waiting for Assignment' ? { ...r, status: 'Scheduled' } : r)) }
     case 'APPROVE_TIME': return patchJob(state, action.jobId, { status: 'Approved' })
+    case 'UPDATE_PROPERTY':
+      return { ...state, panel: null,
+        properties: { ...state.properties, [action.name]: { ...state.properties[action.name], ...action.patch } } }
+    case 'REPORT_ACCESS': // cleaner cannot get in: Management sees it, the cleaner doesn't phone around
+      return { ...patchJob(state, action.jobId, { accessIssue: { reason: action.reason, note: action.note, resolved: false } }), panel: null }
+    case 'RESOLVE_ACCESS': {
+      const job = state.jobs.find((j) => j.id === action.jobId)
+      return { ...patchJob(state, job.id, {
+          accessIssue: { ...job.accessIssue, resolved: true, response: action.response },
+          instruction: action.response || job.instruction }),
+        notifications: [...state.notifications, { id: id('n'), to: job.cleaner, text: `Access answered for ${job.property}: ${action.response}` }] }
+    }
     case 'SET_RESERVE': return patchJob(state, action.jobId, { reserveLinen: action.value })
     case 'SET_PREP': return patchJob(state, action.jobId, { prep: action.status })
     case 'SET_STOCK':
