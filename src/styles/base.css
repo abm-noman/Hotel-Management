@@ -36,3 +36,16 @@ h2 { font-size: 16px; margin: 4px 0 12px; }
 .seg { display: flex; gap: 6px; margin-top: 4px; } .seg button { flex: 1; }
 button.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); margin-top: 10px; }
 .timer { font-size: 22px; font-weight: 600; margin: 12px 0 0; }
+
+/* Step 3: maintenance + theme */
+button:disabled { opacity: .45; cursor: default; }
+select { display: block; width: 100%; font: inherit; color: var(--text); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 8px; padding: 7px; margin-top: 4px; }
+.plan { cursor: default; } .plan:hover { border-color: var(--line); }
+.planrow { margin: 6px 0; }
+.kanban { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--gap); align-items: start; }
+.col { background: var(--accent-soft); border-radius: var(--radius); padding: 10px; min-height: 100px; display: grid; gap: 8px; }
+.col h4 { margin: 0; }
+.thumbs { display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0; }
+.thumbs img { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); }
+body, .header, .card, .panel, button { transition: background-color .2s, color .2s, border-color .2s; }
