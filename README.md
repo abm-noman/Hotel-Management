@@ -1,4 +1,4 @@
-# Hotel Operations — Step 4: Store Manager
+# Hotel Operations — Step 5: Management
 
     npm install
     npm run dev
@@ -22,3 +22,8 @@ photos, and a light/dark toggle (src/hooks/useTheme.js, tokens in src/styles/tok
 Step 4 adds: Store preparation cards (Waiting for Information / To Prepare / Prepared / Collected /
 Changed), guests vs beds-needed vs max-capacity shown separately, cleaner's reserve-linen answer and
 "Mark collected", a Stock menu (kept out of the main view), and Store -> Maintenance equipment tasks.
+
+Step 5 adds: ManagerView (Today / Schedule / Time Approval / Stock). Official priority and cancel
+live in the task panel; add tasks; edit guests, time and a today-only instruction per job;
+Publish schedule (activates scheduled requests, later edits notify only the affected employee);
+Approve time. Changing guests after a package is Prepared flags it Changed for the Store Manager.

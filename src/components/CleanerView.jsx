@@ -10,6 +10,7 @@ export default function CleanerView() {
   const open = state.panel?.type === 'job' && mine.find((j) => j.id === state.panel.id)
   return (
     <>
+      {state.notifications.filter((n) => n.to === ME).map((n) => <p key={n.id} className="chip amber">🔔 {n.text}</p>)}
       <h2>My jobs today</h2>
       <div className="grid">{mine.map((j) => <JobCard key={j.id} job={j} />)}</div>
       {open && <JobPanel job={open} canEdit />}

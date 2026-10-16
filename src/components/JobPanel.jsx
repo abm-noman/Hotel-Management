@@ -27,6 +27,7 @@ export default function JobPanel({ job, canEdit }) {
       <h3>{job.property}</h3>
       <div className="muted">{job.cleaner} · {job.time} · {job.guests} guests</div>
       <StatusChip status={job.status} />
+      <List title="From Management" items={job.instruction ? [job.instruction] : []} />
       <List title="Notices" items={job.notices} />
       <List title="Pinned — permanent" items={profile.permanent} />
       <List title="Today only" items={profile.today} />

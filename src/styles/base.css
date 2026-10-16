@@ -56,3 +56,11 @@ body, .header, .card, .panel, button { transition: background-color .2s, color .
 .kv td:last-child { text-align: right; font-weight: 600; }
 .stockrow { margin: 8px 0; } .stockrow select { width: auto; margin: 0; }
 .field .row input { margin-top: 0; }
+
+/* Step 5: management */
+.tabs { margin-bottom: 12px; }
+.sched th { text-align: left; font-size: 12px; color: var(--muted); padding: 6px 8px; }
+.sched td { padding: 8px; text-align: left !important; font-weight: 400 !important; }
+.sched tr.click { cursor: pointer; } .sched tr.click:hover { background: var(--accent-soft); }
+.nohover { cursor: default; } .nohover:hover { border-color: var(--line); }
+.addtask { cursor: default; } .addtask:hover { border-color: var(--line); }

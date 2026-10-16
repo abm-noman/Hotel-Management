@@ -5,7 +5,7 @@ const initial = {
   panel: null, // { type: 'job' | 'task' | ..., id }
   jobs: [
     { id: 'j1', property: 'Roskildevej 148', cleaner: 'Sabbir', time: '10:00–14:00', guests: 3, beds: '',
-      status: 'To Do', prep: 'Waiting for Information', reserveLinen: '',
+      status: 'To Do', prep: 'Waiting for Information', reserveLinen: '', instruction: '',
       notices: ['Previous cleaner: bring extra towels', 'Open issue: bathroom light flickers'] },
     { id: 'j2', property: 'Vesterbrogade 22', cleaner: 'Anna', time: '12:00–15:00', guests: 2, beds: '',
       status: 'To Do', prep: 'Waiting for Information', reserveLinen: '', notices: [] },
@@ -22,6 +22,8 @@ const initial = {
   ],
   plan: ['t2', 't3'], // worker's own route order; never changes official priority
   requests: [],
+  schedulePublished: false,
+  notifications: [], // { id, to, text } — only the affected employee gets one
   stock: [
     { id: 's1', name: 'Dishwasher tablets', status: 'Low' },
     { id: 's2', name: 'Bath towels', status: 'Available' },
@@ -54,6 +56,32 @@ function reducer(state, action) {
       else if (prep === 'Prepared' && action.beds !== job.beds) prep = 'Changed'
       return patchJob(state, job.id, { beds: action.beds, prep })
     }
+    case 'SET_PRIORITY': return patchTask(state, action.taskId, { priority: action.priority })
+    case 'CANCEL_TASK':
+      return { ...patchTask(state, action.taskId, { status: 'Cancelled' }),
+        plan: state.plan.filter((x) => x !== action.taskId), panel: null }
+    case 'ADD_TASK': {
+      const tid = id('t')
+      return { ...state, tasks: [...state.tasks, { id: tid, title: action.title, property: action.property,
+        source: 'Assigned by Management', priority: action.priority, status: 'To Do', note: '', photos: [] }],
+        plan: [...state.plan, tid] }
+    }
+    case 'UPDATE_JOB': {
+      const job = state.jobs.find((j) => j.id === action.jobId)
+      const patch = action.patch
+      // A changed guest count invalidates an already prepared linen package.
+      if (patch.guests !== undefined && String(patch.guests) !== String(job.guests) && job.prep === 'Prepared') patch.prep = 'Changed'
+      const next = patchJob(state, job.id, patch)
+      // After publishing, only the affected employee is notified.
+      return state.schedulePublished
+        ? { ...next, panel: null, notifications: [...state.notifications,
+            { id: id('n'), to: job.cleaner, text: `Schedule changed for ${job.property}` }] }
+        : { ...next, panel: null }
+    }
+    case 'PUBLISH_SCHEDULE':
+      return { ...state, schedulePublished: true,
+        requests: state.requests.map((r) => (r.status === 'Waiting for Assignment' ? { ...r, status: 'Scheduled' } : r)) }
+    case 'APPROVE_TIME': return patchJob(state, action.jobId, { status: 'Approved' })
     case 'SET_RESERVE': return patchJob(state, action.jobId, { reserveLinen: action.value })
     case 'SET_PREP': return patchJob(state, action.jobId, { prep: action.status })
     case 'SET_STOCK':
