@@ -1,4 +1,4 @@
-# Hotel Operations — Step 1: Foundation
+# Hotel Operations — Step 2: Cleaner
 
     npm install
     npm run dev
@@ -10,3 +10,7 @@ Structure
 - src/styles/tokens.css   colours and spacing (light + dark)
 
 Pattern: short headline on the card, full detail in the side panel.
+
+Step 2 adds: CleanerView, JobPanel (Start, optional bed count, live timer), FinishForm.
+Finishing a job sets it to Pending Approval and files a maintenance task and/or
+requests (bring tomorrow, dirty linen) in shared state for later steps.

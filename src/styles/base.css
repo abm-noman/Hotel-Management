@@ -1,121 +1,38 @@
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font:
-    15px/1.45 system-ui,
-    -apple-system,
-    "Segoe UI",
-    sans-serif;
-}
-button {
-  font: inherit;
-  color: inherit;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 6px 12px;
-  cursor: pointer;
-}
-button.on {
-  background: var(--accent);
-  color: var(--bg);
-  border-color: var(--accent);
-}
-.header {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--line);
-  background: var(--surface);
-}
-.header h1 {
-  font-size: 17px;
-  margin: 0;
-}
-.row {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-main {
-  padding: 16px 20px 60px;
-  max-width: 1200px;
-  margin: auto;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: var(--gap);
-}
-.card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 12px 14px;
-  cursor: pointer;
-}
-.card:hover {
-  border-color: var(--accent);
-}
-.card h3 {
-  margin: 0 0 4px;
-  font-size: 15px;
-}
-.muted {
-  color: var(--muted);
-  font-size: 13px;
-}
-.chip {
-  display: inline-block;
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 99px;
-  background: var(--accent-soft);
-  border: 1px solid var(--line);
-  margin: 4px 4px 0 0;
-}
-.chip.red {
-  color: var(--red);
-  border-color: var(--red);
-}
-.chip.amber {
-  color: var(--amber);
-  border-color: var(--amber);
-}
-.chip.green {
-  color: var(--green);
-  border-color: var(--green);
-}
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  z-index: 9;
-}
-.panel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(440px, 100%);
-  background: var(--surface);
-  border-left: 1px solid var(--line);
-  padding: 18px 18px 40px;
-  overflow: auto;
-  z-index: 10;
-}
-.panel h4 {
-  margin: 16px 0 6px;
-}
-.panel ul {
-  padding-left: 18px;
-  margin: 4px 0;
-}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font: 15px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif; }
+button { font: inherit; color: inherit; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+button.on { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.header { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;
+  padding: 14px 20px; border-bottom: 1px solid var(--line); background: var(--surface); }
+.header h1 { font-size: 17px; margin: 0; }
+.row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+main { padding: 16px 20px 60px; max-width: 1200px; margin: auto; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--gap); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 12px 14px; cursor: pointer; }
+.card:hover { border-color: var(--accent); }
+.card h3 { margin: 0 0 4px; font-size: 15px; }
+.muted { color: var(--muted); font-size: 13px; }
+.chip { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 99px;
+  background: var(--accent-soft); border: 1px solid var(--line); margin: 4px 4px 0 0; }
+.chip.red { color: var(--red); border-color: var(--red); }
+.chip.amber { color: var(--amber); border-color: var(--amber); }
+.chip.green { color: var(--green); border-color: var(--green); }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 9; }
+.panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(440px, 100%); background: var(--surface);
+  border-left: 1px solid var(--line); padding: 18px 18px 40px; overflow: auto; z-index: 10; }
+.panel h4 { margin: 16px 0 6px; }
+.panel ul { padding-left: 18px; margin: 4px 0; }
+
+/* Step 2: forms */
+h2 { font-size: 16px; margin: 4px 0 12px; }
+.field { display: block; margin: 12px 0; font-size: 13px; color: var(--muted); }
+.field .hint { display: block; font-size: 12px; margin-top: 2px; }
+.field textarea, .field input { display: block; width: 100%; font: inherit; color: var(--text);
+  background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 7px; margin-top: 4px; }
+.field textarea { min-height: 56px; }
+.seg { display: flex; gap: 6px; margin-top: 4px; } .seg button { flex: 1; }
+button.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); margin-top: 10px; }
+.timer { font-size: 22px; font-weight: 600; margin: 12px 0 0; }
