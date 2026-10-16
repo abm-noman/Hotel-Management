@@ -1,0 +1,29 @@
+/* Design tokens: change the look here, nowhere else. */
+:root {
+  --bg: #f6f5f1;
+  --surface: #ffffff;
+  --text: #1d1d1b;
+  --muted: #6b6a64;
+  --line: #e3e1d8;
+  --accent: #1f5e5b;
+  --accent-soft: #e3efee;
+  --red: #b3261e;
+  --amber: #8a5a00;
+  --green: #1e7a46;
+  --radius: 12px;
+  --gap: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141413;
+    --surface: #1e1e1c;
+    --text: #efeee8;
+    --muted: #a09f97;
+    --line: #34332f;
+    --accent: #6cc4bf;
+    --accent-soft: #1f3533;
+    --red: #ff8a80;
+    --amber: #f0b95a;
+    --green: #6fd49a;
+  }
+}
