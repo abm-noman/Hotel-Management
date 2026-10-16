@@ -1,4 +1,5 @@
-import { createContext, useContext, useReducer } from 'react'
+import { createContext, useContext, useEffect, useReducer, useState } from 'react'
+import { loadState, saveState, clearState, STORAGE_KEY } from './storage.js'
 
 const initial = {
   role: 'cleaner',
@@ -47,6 +48,8 @@ const patchTask = (state, taskId, patch) =>
 
 function reducer(state, action) {
   switch (action.type) {
+    case 'REPLACE': return { ...action.state, panel: state.panel } // another browser tab saved newer data
+    case 'RESET': return { ...initial }
     case 'SET_ROLE': return { ...state, role: action.role, panel: null, page: 'main' }
     case 'SET_PAGE': return { ...state, page: action.page, panel: null }
     case 'ADD_PLAN_ITEM':
@@ -160,7 +163,23 @@ function reducer(state, action) {
 
 const Ctx = createContext(null)
 export function AppStateProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, initial)
-  return <Ctx.Provider value={{ state, dispatch }}>{children}</Ctx.Provider>
+  const [state, dispatch] = useReducer(reducer, initial, loadState)
+  const [saveFailed, setSaveFailed] = useState(false)
+
+  // Save after every change.
+  useEffect(() => { setSaveFailed(!saveState(state)) }, [state])
+
+  // Keep several open tabs in sync (e.g. Cleaner in one tab, Manager in another).
+  useEffect(() => {
+    const onStorage = (e) => {
+      if (e.key !== STORAGE_KEY || !e.newValue) return
+      try { dispatch({ type: 'REPLACE', state: { ...initial, ...JSON.parse(e.newValue).state } }) } catch {}
+    }
+    window.addEventListener('storage', onStorage)
+    return () => window.removeEventListener('storage', onStorage)
+  }, [])
+
+  const resetAll = () => { clearState(); dispatch({ type: 'RESET' }) }
+  return <Ctx.Provider value={{ state, dispatch, saveFailed, resetAll }}>{children}</Ctx.Provider>
 }
 export const useApp = () => useContext(Ctx)

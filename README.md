@@ -1,4 +1,4 @@
-# Hotel Operations — Step 6: Next Day Planning + Owner
+# Hotel Operations — Step 7: Local storage
 
     npm install
     npm run dev
@@ -31,3 +31,7 @@ Approve time. Changing guests after a package is Prepared flags it Changed for t
 Step 6 adds: Next Day Planning (shared by every role, derived in src/state/selectors.js from requests,
 pending tasks, stock risks and waiting linen), filters, detail panel; Owner/CEO overview with KPIs,
 "needs attention", the owner-task-priority decision, and Owner-created tasks.
+
+Step 7 adds: automatic saving to localStorage (src/state/storage.js, versioned), live sync between
+open tabs, photos stored as shrunken data URLs (src/utils/image.js), a "Reset data" button, and a
+warning chip if the browser refuses to save. Change VERSION in storage.js whenever the data shape changes.

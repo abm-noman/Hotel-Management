@@ -2,6 +2,7 @@ import { useState } from 'react'
 import SidePanel from './SidePanel.jsx'
 import { StatusChip, PriorityChip } from './Chip.jsx'
 import { useApp } from '../state/AppState.jsx'
+import { fileToDataUrl } from '../utils/image.js'
 
 const REASONS = ['Spare part required', 'External technician required', 'Guest in room', 'No access',
   'More time needed', 'Management approval needed', 'Other']
@@ -11,12 +12,12 @@ function Photos({ task, kind, label, canEdit }) {
   const shown = task.photos.filter((p) => p.kind === kind)
   return (
     <div className="field">{label}
-      <div className="thumbs">{shown.map((p) => <img key={p.url} src={p.url} alt={label} />)}</div>
+      <div className="thumbs">{shown.map((p, i) => <img key={i} src={p.url} alt={label} />)}</div>
       {canEdit && (
-        <input type="file" accept="image/*" onChange={(e) => {
+        <input type="file" accept="image/*" onChange={async (e) => {
           const f = e.target.files[0]
-          if (f) dispatch({ type: 'ADD_PHOTO', taskId: task.id, kind, url: URL.createObjectURL(f) })
           e.target.value = ''
+          if (f) dispatch({ type: 'ADD_PHOTO', taskId: task.id, kind, url: await fileToDataUrl(f) })
         }} />
       )}
     </div>
