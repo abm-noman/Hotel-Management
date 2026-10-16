@@ -1,4 +1,4 @@
-# Hotel Operations — Step 5: Management
+# Hotel Operations — Step 6: Next Day Planning + Owner
 
     npm install
     npm run dev
@@ -27,3 +27,7 @@ Step 5 adds: ManagerView (Today / Schedule / Time Approval / Stock). Official pr
 live in the task panel; add tasks; edit guests, time and a today-only instruction per job;
 Publish schedule (activates scheduled requests, later edits notify only the affected employee);
 Approve time. Changing guests after a package is Prepared flags it Changed for the Store Manager.
+
+Step 6 adds: Next Day Planning (shared by every role, derived in src/state/selectors.js from requests,
+pending tasks, stock risks and waiting linen), filters, detail panel; Owner/CEO overview with KPIs,
+"needs attention", the owner-task-priority decision, and Owner-created tasks.

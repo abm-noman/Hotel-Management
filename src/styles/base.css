@@ -64,3 +64,8 @@ body, .header, .card, .panel, button { transition: background-color .2s, color .
 .sched tr.click { cursor: pointer; } .sched tr.click:hover { background: var(--accent-soft); }
 .nohover { cursor: default; } .nohover:hover { border-color: var(--line); }
 .addtask { cursor: default; } .addtask:hover { border-color: var(--line); }
+
+/* Step 6: planning + owner */
+.kpi.amber { color: var(--amber); } .kpi.green { color: var(--green); }
+.kpi { font-size: 28px; font-weight: 600; }
+.filters { margin: 8px 0 12px; }

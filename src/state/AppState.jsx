@@ -2,6 +2,7 @@ import { createContext, useContext, useReducer } from 'react'
 
 const initial = {
   role: 'cleaner',
+  page: 'main', // 'main' (role screen) | 'next' (Next Day Planning)
   panel: null, // { type: 'job' | 'task' | ..., id }
   jobs: [
     { id: 'j1', property: 'Roskildevej 148', cleaner: 'Sabbir', time: '10:00–14:00', guests: 3, beds: '',
@@ -22,6 +23,11 @@ const initial = {
   ],
   plan: ['t2', 't3'], // worker's own route order; never changes official priority
   requests: [],
+  planItems: [
+    { id: 'p1', label: 'Owner inspection at 15:00', kind: 'Owner', status: 'Scheduled', source: 'Assigned by Owner',
+      who: 'Owner', detail: 'Walk-through of Roskildevej 148.' },
+  ],
+  policy: null, // Owner decision: 'auto' (owner tasks High) | 'manager' (Manager confirms priority)
   schedulePublished: false,
   notifications: [], // { id, to, text } — only the affected employee gets one
   stock: [
@@ -41,7 +47,20 @@ const patchTask = (state, taskId, patch) =>
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'SET_ROLE': return { ...state, role: action.role, panel: null }
+    case 'SET_ROLE': return { ...state, role: action.role, panel: null, page: 'main' }
+    case 'SET_PAGE': return { ...state, page: action.page, panel: null }
+    case 'ADD_PLAN_ITEM':
+      return { ...state, planItems: [...state.planItems, { id: id('p'), label: action.label, kind: action.kind,
+        status: 'Scheduled', source: 'Assigned by ' + (action.kind === 'Owner' ? 'Owner' : 'Management'),
+        who: action.kind, detail: '' }] }
+    case 'SET_POLICY': return { ...state, policy: action.policy }
+    case 'ADD_OWNER_TASK': {
+      const tid = id('t')
+      return { ...state, tasks: [...state.tasks, { id: tid, title: action.title, property: action.property,
+        source: 'Assigned by Owner', priority: state.policy === 'auto' ? 'High' : 'Normal', status: 'To Do',
+        note: state.policy === 'auto' ? '' : 'Management confirms the official priority.', photos: [] }],
+        plan: [...state.plan, tid] }
+    }
     case 'OPEN_PANEL': return { ...state, panel: action.panel }
     case 'CLOSE_PANEL': return { ...state, panel: null }
 

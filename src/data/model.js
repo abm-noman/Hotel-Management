@@ -15,6 +15,10 @@ export const STATUS = {
   'Pending Approval': { icon: '⏳', tone: 'amber' },
   'Approved': { icon: '✓', tone: 'green' },
   'Done': { icon: '✓', tone: 'green' },
+  // planning
+  'Scheduled': { icon: '▣' },
+  'Carried Forward': { icon: '↪', tone: 'amber' },
+  'Waiting for Assignment': { icon: '…', tone: 'amber' },
   // store preparation
   'Waiting for Information': { icon: '?', tone: 'amber' },
   'To Prepare': { icon: '○' },
