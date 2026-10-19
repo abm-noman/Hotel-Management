@@ -1,15 +1,18 @@
-/* Design tokens: change the look here, nowhere else.
-   Light is the default; dark is applied via <html data-theme="dark">. */
+/* Light is default; dark via <html data-theme="dark">. Edit the look here. */
 :root {
   color-scheme: light;
-  --bg: #f6f5f1; --surface: #ffffff; --text: #1d1d1b; --muted: #6b6a64;
-  --line: #e3e1d8; --accent: #1f5e5b; --accent-soft: #e3efee;
-  --red: #b3261e; --amber: #8a5a00; --green: #1e7a46;
-  --radius: 12px; --gap: 12px;
+  --bg: #fbfaf6; --surface: #ffffff; --ink: #14215b; --muted: #5d6796; --line: #c9d1ea;
+  --blue-bg: #e6f1fc; --blue-bd: #7db4e8; --yellow-bg: #fff6d6; --yellow-bd: #e8c34a;
+  --green-bg: #e1f4e2; --green-bd: #3d9a48; --red-bg: #fde4e4; --red-bd: #d4484a;
+  --pink-bg: #fde0ec; --purple-bg: #e8e4fb; --gray-bg: #eceef3; --gray-bd: #b6bccd;
+  --btn-green: #2f8b45; --btn-green-ink: #ffffff; --accent: #1f4fd8; --hl: #f6d86a;
+  --radius: 12px;
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #141413; --surface: #1e1e1c; --text: #efeee8; --muted: #a09f97;
-  --line: #34332f; --accent: #6cc4bf; --accent-soft: #1f3533;
-  --red: #ff8a80; --amber: #f0b95a; --green: #6fd49a;
+  --bg: #11131c; --surface: #1a1e2c; --ink: #e8ecff; --muted: #9aa3cf; --line: #343b5c;
+  --blue-bg: #17283f; --blue-bd: #4b84c4; --yellow-bg: #3a3317; --yellow-bd: #b8962c;
+  --green-bg: #17331d; --green-bd: #4fae5b; --red-bg: #3d1a1c; --red-bd: #e0646a;
+  --pink-bg: #43202f; --purple-bg: #2b2749; --gray-bg: #242838; --gray-bd: #4a5170;
+  --btn-green: #3fa457; --btn-green-ink: #0b1a0f; --accent: #8fb2ff; --hl: #6d5a12;
 }

@@ -1,43 +1,14 @@
-# Hotel Operations — Step 8: Property profiles + access issues
+# Nordstay Ops — UI rewrite (step 9)
 
     npm install
     npm run dev
 
-Structure
-- src/data/model.js       roles, statuses, priorities, property profiles
-- src/state/AppState.jsx  shared state (useReducer + context)
-- src/components/         Chip, SidePanel, Header, JobCard
-- src/styles/tokens.css   colours and spacing (light + dark)
+Tabs (src/views): Cleaners · Store Manager · Company Manager · Maintenance · Issues · Next Day
+- state: src/state/AppState.jsx (one reducer; saved to localStorage, VERSION 3 in storage.js)
+- look:  src/styles/tokens.css (light/dark colours), base.css, font Patrick Hand
+- shared UI: src/components/ui.jsx (Avatar, Chip, Drawer, Seg, ...)
 
-Pattern: short headline on the card, full detail in the side panel.
-
-Step 2 adds: CleanerView, JobPanel (Start, optional bed count, live timer), FinishForm.
-Finishing a job sets it to Pending Approval and files a maintenance task and/or
-requests (bring tomorrow, dirty linen) in shared state for later steps.
-
-Step 3 adds: Maintenance Kanban, My Work Plan (personal order, separate from official
-priority), Pending with required reason + proposed date, Done with closing note, progress/final
-photos, and a light/dark toggle (src/hooks/useTheme.js, tokens in src/styles/tokens.css).
-
-Step 4 adds: Store preparation cards (Waiting for Information / To Prepare / Prepared / Collected /
-Changed), guests vs beds-needed vs max-capacity shown separately, cleaner's reserve-linen answer and
-"Mark collected", a Stock menu (kept out of the main view), and Store -> Maintenance equipment tasks.
-
-Step 5 adds: ManagerView (Today / Schedule / Time Approval / Stock). Official priority and cancel
-live in the task panel; add tasks; edit guests, time and a today-only instruction per job;
-Publish schedule (activates scheduled requests, later edits notify only the affected employee);
-Approve time. Changing guests after a package is Prepared flags it Changed for the Store Manager.
-
-Step 6 adds: Next Day Planning (shared by every role, derived in src/state/selectors.js from requests,
-pending tasks, stock risks and waiting linen), filters, detail panel; Owner/CEO overview with KPIs,
-"needs attention", the owner-task-priority decision, and Owner-created tasks.
-
-Step 7 adds: automatic saving to localStorage (src/state/storage.js, versioned), live sync between
-open tabs, photos stored as shrunken data URLs (src/utils/image.js), a "Reset data" button, and a
-warning chip if the browser refuses to save. Change VERSION in storage.js whenever the data shape changes.
-
-Step 8 adds: editable property profiles (Management > Properties: address, floor, key box, code, parking,
-waste, standard cleaning, max beds, note, entrance photo, today-only lines), shown read-only to the
-assigned cleaner without any view logging; cleaner "Can't get in?" access report -> Management answers
-(becomes a today-only instruction + notification) -> Owner sees blocked-by-access count.
-Saved-data VERSION bumped to 2.
+Flows: cleaner reports/can't-enter -> Issues -> manager sends to Maintenance / Store / Cleaner;
+finishing a job feeds Next Day approval; publishing delivers "bring from store" to the next cleaner,
+who must confirm it before opening the day. Stock "not available" -> purchase item on Next Day.
+Data is demo data; "Reset" in the header restores it.

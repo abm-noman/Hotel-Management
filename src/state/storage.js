@@ -1,7 +1,7 @@
 // Saves the whole app state in the browser. Bump VERSION when the data shape changes,
 // so old saved data is ignored instead of breaking the app.
 const KEY = 'hotel-ops:data'
-const VERSION = 2 // v2: property profiles moved into state
+const VERSION = 3 // v3: Nordstay UI rewrite
 
 export function loadState(fallback) {
   try {
@@ -9,7 +9,7 @@ export function loadState(fallback) {
     if (!raw) return fallback
     const saved = JSON.parse(raw)
     if (saved.version !== VERSION) return fallback
-    return { ...fallback, ...saved.state, panel: null } // an open panel is never restored
+    return { ...fallback, ...saved.state, panel: null }
   } catch {
     return fallback
   }

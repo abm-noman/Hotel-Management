@@ -1,59 +1,25 @@
-// Shared vocabulary. Every later step builds on these names.
-export const ROLES = {
-  cleaner: 'Cleaner',
-  maintenance: 'Maintenance',
-  store: 'Store Manager',
-  manager: 'Management',
-  owner: 'Owner / CEO',
-}
-
-// Status = icon + label + tone, so meaning never depends on colour alone.
-export const STATUS = {
-  'To Do': { icon: '○' },
-  'In Progress': { icon: '◐', tone: 'amber' },
-  'Pending': { icon: '⏸', tone: 'amber' },
-  'Pending Approval': { icon: '⏳', tone: 'amber' },
-  'Approved': { icon: '✓', tone: 'green' },
-  'Done': { icon: '✓', tone: 'green' },
-  // planning
-  'Scheduled': { icon: '▣' },
-  'Carried Forward': { icon: '↪', tone: 'amber' },
-  'Waiting for Assignment': { icon: '…', tone: 'amber' },
-  // store preparation
-  'Waiting for Information': { icon: '?', tone: 'amber' },
-  'To Prepare': { icon: '○' },
-  'Prepared': { icon: '✓', tone: 'green' },
-  'Collected': { icon: '✓✓', tone: 'green' },
-  'Changed': { icon: '⚠', tone: 'red' },
-  // stock
-  'Available': { icon: '✓', tone: 'green' },
-  'Low': { icon: '▾', tone: 'amber' },
-  'Out of Stock': { icon: '✕', tone: 'red' },
-  'Ordered': { icon: '▤' },
-  'Received': { icon: '✓', tone: 'green' },
-}
-export const STOCK_STATUSES = ['Available', 'Low', 'Out of Stock', 'Ordered', 'Received']
-export const PRIORITY = {
-  Urgent: { icon: '▲▲', tone: 'red' },
-  High: { icon: '▲', tone: 'amber' },
-  Normal: { icon: '●' },
-  Low: { icon: '▽' },
-}
-
-// Property profile seed data. Edited by Management in the app; permanent and today-only stay apart.
-export const DEFAULT_PROPERTIES = {
-  'Roskildevej 148': {
-    address: 'Roskildevej 148', floor: '2nd floor', parking: 'Street, free', keyBox: 'Left of the entrance',
-    code: '4821', waste: 'Back-yard bins', cleaning: 'Checklist B: kitchen, bathroom, floors, beds',
-    maxBeds: 4, notes: '', photo: '', today: ['Late checkout at 11:30'],
-  },
-  'Vesterbrogade 22': {
-    address: 'Vesterbrogade 22', floor: 'Ground floor', parking: 'Street, free', keyBox: 'In the stairwell',
-    code: '1190', waste: 'Basement room', cleaning: 'Checklist A: quick turnover',
-    maxBeds: 3, notes: '', photo: '', today: [],
-  },
-}
+export const TABS = [
+  ['cleaners', 'Cleaners', '👥'], ['store', 'Store Manager', '🏪'], ['manager', 'Company Manager', '🧑‍🤝‍🧑'],
+  ['maintenance', 'Maintenance', '🔧'], ['issues', 'Issues', '⚠️'], ['next', 'Next Day', '📅'],
+]
+export const PRIORITIES = ['Low', 'Normal', 'High', 'Urgent']
+export const SOURCE = { cleaner: 'FROM CLEANER', store: 'FROM STORE', manager: 'FROM MANAGER', self: 'MY TASK' }
+export const KIND = { maintenance: ['🔧', 'MAINTENANCE'], cleaner: ['👥', 'CLEANER'], store: ['🏪', 'STORE MANAGER'], manager: ['🧑‍🤝‍🧑', 'COMPANY MANAGER'] }
 export const PROFILE_FIELDS = [
   ['address', 'Address'], ['floor', 'Floor'], ['keyBox', 'Key box location'], ['code', 'Key box code'],
   ['parking', 'Parking'], ['waste', 'Waste disposal'], ['cleaning', 'Standard cleaning instruction'],
 ]
+const prop = (address, floor, keyBox, code, maxBeds, today = []) => ({
+  address, floor, keyBox, code, parking: 'Street, free', waste: 'Courtyard bins',
+  cleaning: 'Standard checklist: kitchen, bathroom, floors, beds', maxBeds, notes: '', photo: '', today,
+})
+export const DEFAULT_PROPERTIES = {
+  'Roskildevej 148': prop('Roskildevej 148, 4000 Roskilde', '2nd floor', 'Courtyard, left wall', '2846', 4, ['Late checkout · Access after 10:15']),
+  'Vesterbrogade 72': prop('Vesterbrogade 72', '3rd floor', 'Stairwell, ground floor', '1190', 3),
+  'Nørrebrogade 211': prop('Nørrebrogade 211', '1st floor', 'Front door, right side', '7305', 5),
+  'Amagerbrogade 95': prop('Amagerbrogade 95', 'Ground floor', 'Back gate', '4412', 3),
+  'Østerbrogade 41': prop('Østerbrogade 41', '4th floor', 'Entrance hall', '8821', 2),
+  'Frederiksberg Allé 23': prop('Frederiksberg Allé 23', '2nd floor', 'Courtyard door', '6150', 4),
+  'Istedgade 88': prop('Istedgade 88', '1st floor', 'Next to the bike stand', '3047', 2),
+  'Gammel Kongevej 120': prop('Gammel Kongevej 120', '3rd floor', 'Stairwell', '9273', 3),
+}
